@@ -2,20 +2,17 @@
 
 namespace Kiboko\Plugin\FastMap;
 
+use Kiboko\Component\Satellite\NamedConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 
-final class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface, NamedConfigurationInterface
 {
-    public function __construct(private string $name = 'fastmap')
-    {
-    }
-
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder($this->name);
+        $builder = new TreeBuilder($this->getName());
 
         $builder->getRootNode()
             ->validate()
@@ -369,5 +366,10 @@ final class Configuration implements ConfigurationInterface
     public function getObjectTreeBuilder(): TreeBuilder
     {
         return $this->getChildTreeBuilder('object');
+    }
+
+    public function getName(): string
+    {
+        return 'fastmap';
     }
 }
